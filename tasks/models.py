@@ -4,8 +4,13 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
+    first_name = models.CharField(max_length=30)
     last_name = models.TextField(blank=True, null=True) 
-    password = models.CharField(max_length=128, validators=[MinLengthValidator(6)])     
+    password = models.CharField(max_length=128, validators=[MinLengthValidator(6)])   
+    email = models.EmailField(unique=True)  
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
         return self.username
@@ -26,4 +31,7 @@ class Task(models.Model):
     
     def __str__(self):
         return f"{self.title} ({self.status})"
+
+    class Meta:
+            ordering = ['-created_at'] 
     

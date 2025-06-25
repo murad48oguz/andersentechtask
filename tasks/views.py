@@ -5,6 +5,10 @@ from .serializers import TaskSerializer
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
+from rest_framework import generics
+from .serializers import UserRegistrationSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
 
 
 class UserTaskViewSet(viewsets.ModelViewSet):
@@ -37,4 +41,11 @@ class UserTaskViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(task)
         return Response(serializer.data)
     
-    
+
+class RegisterView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = UserRegistrationSerializer
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
